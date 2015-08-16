@@ -5,8 +5,7 @@ Spree::Core::Engine.add_routes do
 
     namespace :api, defaults: { format: 'json' } do
         resources :wishlists do
-            collection do
-                post :product
+            resources :products
             end
         end
     end

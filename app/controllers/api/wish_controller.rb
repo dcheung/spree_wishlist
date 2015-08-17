@@ -24,6 +24,11 @@ module Api
             @wished_product
         end
 
+        def destroy
+            @wished_product = Spree::WishedProduct.find(params[:id])
+            @wished_product.destroy
+        end
+
         private
 
         def wish_attributes

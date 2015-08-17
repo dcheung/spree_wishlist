@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     namespace :api, defaults: { format: 'json' } do
     	resources :wishlists do
     	end
+    	
         resources :wish do
         end
     end

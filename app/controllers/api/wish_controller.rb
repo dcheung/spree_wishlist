@@ -25,8 +25,23 @@ module Api
         end
 
         def destroy
-            @wished_product = Spree::WishedProduct.find(params[:id])
-            @wished_product.destroy
+            logger.info "destroy  wish"
+            @user = load_user
+            @wishlist = @user.wishlist
+
+            logger.info "parameters : #{params.inspect}"
+            logger.info "user : #{@user.inspect}"
+
+            @wished_product = Spree::WishedProduct.find_by(variant_id: params[:id], wishlist_id: @wishlist.id)
+            @wished_product.destroy unless @wished_product.nil?
+
+            if @wished_product.nil?
+                logger.error "unable to find wishlist item"
+                @error = "WishlistNotFound"
+                @error_message = "wishlist item not found error"
+                @error_code = 404
+                render "api/errors/wishlist_error", status: 404 and return
+            end            
         end
 
         private

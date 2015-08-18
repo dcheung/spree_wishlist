@@ -7,6 +7,11 @@ module Api
 
             @wishlist = @user.wishlist
             @wished_products = @wishlist.wished_products
+
+            @products = Array.new
+            @wished_products.each do |wished_product|
+            	@products << wished_product.variant.product
+            end
         end
     end
 end

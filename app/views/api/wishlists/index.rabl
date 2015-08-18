@@ -1,4 +1,4 @@
-object @wished_products
-child :variant => :product do
-  extends "spree/api/v1/variants/big"
+object false
+child(@products => :products) do
+  extends "spree/api/v1/products/show"
 end

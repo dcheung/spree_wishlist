@@ -9,17 +9,17 @@ module Api
             @wishlist = @user.wishlist
 
             params[:wish][:wishlist_id] = params[:wishlist_id]
+            @product = Spree::Product.find(params[:wish][:product_id]) unless params[:wish][:product_id].nil?
+            logger.info "product : #{@product.inspect}"
+            variant = @product.master
 
-            if @wishlist.include? params[:wish][:variant_id]
-                @wished_product = @wishlist.wished_products.detect { |wp| wp.variant_id == params[:wish][:variant_id].to_i }
+            if @wishlist.include? variant.id
+                @wished_product = @wishlist.wished_products.detect { |wp| wp.variant_id == variant.id }
             else
                 @wished_product.wishlist = @user.wishlist
+                @wished_product.variant_id = @product.master.id
                 @wished_product.save
             end
-
-            @variant = @wished_product.variant
-            @product = @variant.product
-            logger.info "wished product : #{@wished_product.inspect}"
 
             @wished_product
         end
